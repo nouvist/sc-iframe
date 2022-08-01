@@ -1,5 +1,7 @@
+import camelCasify from './camelCasify';
 import Invoker from './Invoker';
 import { LoadOptions, LOAD_OPTIONS_MAPPING } from './types/LoadOptions';
+import { Metadata } from './types/Metadata';
 import { EventMethod, EventObject } from './types/Method';
 
 export interface ConstructOptions {
@@ -35,7 +37,7 @@ export default class SCWidget extends Invoker {
       }
     }
 
-    this.invokeTimeout = invokeTimeout || 1e3;
+    this.invokeTimeout = invokeTimeout || 5e3;
     window.addEventListener('message', this._onMessage);
   }
 
@@ -51,6 +53,7 @@ export default class SCWidget extends Invoker {
         this._addEventListener('pause');
         this._addEventListener('seek');
         this._addEventListener('finish');
+        this._refreshMetadata();
         break;
       }
 
@@ -60,24 +63,35 @@ export default class SCWidget extends Invoker {
       }
 
       case 'seek': {
-        this._refreshData(data.value);
+        this._refreshTime(data.value);
         break;
       }
       case 'play': {
         this.isPaused = false;
-        this._refreshData(data.value);
+        this._refreshTime(data.value);
         break;
       }
       case 'pause': {
         this.isPaused = true;
-        this._refreshData(data.value);
+        this._refreshTime(data.value);
         break;
       }
     }
   };
 
+  protected _refreshMetadata = async () => {
+    console.log('refreshing metadata ...');
+    this.metadata = camelCasify<Metadata>(
+      await this._invokeGetter<object>('getCurrentSound'),
+    );
+  };
+
+  metadata?: Metadata;
+
   isPaused = true;
-  duration = 0;
+  get duration() {
+    return this.metadata?.duration || 0;
+  }
 
   protected _currentTime = 0;
   protected _currentTimeLast = 0;
@@ -91,14 +105,15 @@ export default class SCWidget extends Invoker {
     this._invoke('seekTo', value);
   }
 
-  protected _refreshData = (data: EventObject) => {
+  protected _refreshTime = (data: EventObject) => {
+    console.log('refreshing time ...');
     this._currentTimeLast = Date.now();
     this._currentTime = data.currentPosition;
+    if (this.metadata?.id !== data.soundId) this._refreshMetadata();
   };
 
   loadFromURI = (url: string, opts?: Partial<LoadOptions>) => {
     this.isPaused = true;
-    this.duration = 0;
     this._currentTime = 0;
     this._currentTimeLast = 0;
 

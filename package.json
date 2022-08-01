@@ -2,17 +2,20 @@
   "name": "sc-widget",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "main": "dist/index.js",
   "types": "types",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "pnpm build:clean && pnpm build:tsc && pnpm build:vite",
+    "build:clean": "rimraf dist types",
+    "build:tsc": "tsc",
+    "build:vite": "vite build",
     "prepublish": "pnpm build",
     "preview": "vite preview"
   },
   "devDependencies": {
     "@types/node": "^18.6.3",
+    "rimraf": "^3.0.2",
     "typescript": "^4.6.4",
     "vite": "^3.0.0"
   }

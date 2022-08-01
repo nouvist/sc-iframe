@@ -7,6 +7,7 @@ export default defineConfig({
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'SCWidget',
       fileName: 'index',
+      formats: ['cjs', 'es', 'umd', 'iife'],
     },
   },
 });

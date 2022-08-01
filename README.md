@@ -2,6 +2,9 @@
   sc-iframe
 </h1>
 
+[![npm](https://img.shields.io/npm/v/sc-iframe)](https://www.npmjs.com/package/sc-iframe)
+![GitHub](https://img.shields.io/github/license/nouvist/sc-iframe)
+
 Unofficial Soundcloud Widget API written in Typescript.
 
 > Soundcloud is trademark or registered trademark of their respective holders. This project is not affiliated with or endorsed by them.
@@ -17,7 +20,6 @@ npm install sc-iframe
 yarn add sc-iframe
 # pnpm
 pnpm add sc-iframe
-
 ```
 
 ## Usage

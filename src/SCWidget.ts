@@ -1,7 +1,9 @@
+import { LoadOptions, LOAD_OPTIONS_MAPPING } from './LoadOptions';
+
 export default class SCWidget {
   iframe: HTMLIFrameElement;
 
-  constructor(iframe?: HTMLIFrameElement) {
+  constructor(iframe?: HTMLIFrameElement, public invokeTimeout = 1e3) {
     if (typeof iframe !== 'undefined') {
       if (iframe.nodeName.toLocaleLowerCase() !== 'iframe') {
         throw new TypeError('specified element is not an iframe');
@@ -15,6 +17,9 @@ export default class SCWidget {
       this.iframe.style.minHeight = '166px';
       this.iframe.style.width = '100%';
     }
+    this.iframe.id = `scw-${Array.from(Array(8), () =>
+      Math.round(Math.random() * 255).toString(16),
+    ).join('')}`;
   }
 
   loadFromURI = (url: string, opts?: Partial<LoadOptions>) => {
@@ -39,6 +44,45 @@ export default class SCWidget {
     this.iframe.contentWindow?.postMessage(data, origin);
   };
 
+  protected _invokeWait = <T>(method: string, value?: any): Promise<T> => {
+    return new Promise((res, rej) => {
+      const iframe = this.iframe;
+      let timeout: ReturnType<typeof setTimeout>;
+
+      function onMessage(evt: MessageEvent) {
+        if (iframe.contentWindow !== evt.source) return;
+
+        let data: { method: string; value: T };
+        try {
+          data = JSON.parse(evt.data);
+        } catch {
+          return;
+        }
+
+        if (method !== data.method) return;
+
+        clearTimeout(timeout);
+        window.removeEventListener('message', onMessage);
+        res(data.value);
+      }
+      window.addEventListener('message', onMessage);
+      timeout = setTimeout(() => {
+        window.removeEventListener('message', onMessage);
+        rej(new Error('iframe is not responding'));
+      }, this.invokeTimeout);
+
+      this._invoke(method, value);
+    });
+  };
+
+  togglePlay = async () => {
+    if (await this.isPaused) {
+      this.play();
+    } else {
+      this.pause();
+    }
+  };
+
   play = () => {
     this._invoke('play');
   };
@@ -57,30 +101,12 @@ export default class SCWidget {
   set currentTime(value: number) {
     this._invoke('seekTo', value);
   }
-}
 
-const LOAD_OPTIONS_MAPPING = {
-  autoPlay: 'auto_play',
-  color: 'color',
-  buying: 'buying',
-  sharing: 'sharing',
-  download: 'download',
-  showArtwork: 'show_artwork',
-  showPlayCount: 'show_playcount',
-  showUser: 'show_user',
-  startTrack: 'start_track',
-  singleActive: 'single_active',
-};
+  get duration() {
+    return this._invokeWait<number>('getDuration');
+  }
 
-interface LoadOptions {
-  autoPlay: boolean;
-  color: string;
-  buying: boolean;
-  sharing: boolean;
-  download: boolean;
-  showArtwork: boolean;
-  showPlayCount: boolean;
-  showUser: boolean;
-  startTrack: number;
-  singleActive: boolean;
+  get isPaused() {
+    return this._invokeWait<boolean>('isPaused');
+  }
 }

@@ -1,4 +1,3 @@
-
 export interface LoadOptions {
   autoPlay: boolean;
   color: string;

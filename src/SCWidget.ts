@@ -1,9 +1,23 @@
-import { LoadOptions, LOAD_OPTIONS_MAPPING } from './LoadOptions';
+import Invoker from './Invoker';
+import { LoadOptions, LOAD_OPTIONS_MAPPING } from './types/LoadOptions';
 
-export default class SCWidget {
+export interface ConstructOptions {
+  iframe: HTMLIFrameElement;
+  invokeTimeout: number;
+  useDefaultStyle: boolean;
+}
+
+export default class SCWidget extends Invoker {
+  invokeTimeout: number;
   iframe: HTMLIFrameElement;
 
-  constructor(iframe?: HTMLIFrameElement, public invokeTimeout = 1e3) {
+  constructor({
+    iframe,
+    invokeTimeout,
+    useDefaultStyle,
+  }: Partial<ConstructOptions> = {}) {
+    super();
+
     if (typeof iframe !== 'undefined') {
       if (iframe.nodeName.toLocaleLowerCase() !== 'iframe') {
         throw new TypeError('specified element is not an iframe');
@@ -14,12 +28,13 @@ export default class SCWidget {
       this.iframe.setAttribute('frameborder', 'no');
       this.iframe.setAttribute('allow', 'autoplay');
       this.iframe.setAttribute('scrolling', 'no');
-      this.iframe.style.minHeight = '166px';
-      this.iframe.style.width = '100%';
+      if (useDefaultStyle) {
+        this.iframe.style.minHeight = '166px';
+        this.iframe.style.width = '100%';
+      }
     }
-    this.iframe.id = `scw-${Array.from(Array(8), () =>
-      Math.round(Math.random() * 255).toString(16),
-    ).join('')}`;
+
+    this.invokeTimeout = invokeTimeout || 1e3;
   }
 
   loadFromURI = (url: string, opts?: Partial<LoadOptions>) => {
@@ -80,66 +95,4 @@ export default class SCWidget {
   get isPaused() {
     return this._invokeWait<boolean>('isPaused');
   }
-
-  protected _invoke = (method: string, value?: any) => {
-    const data = JSON.stringify({ method, value: value || null });
-    const origin = (
-      this.iframe.getAttribute('src')?.split('?')[0] ||
-      'https://w.soundcloud.com'
-    ).replace(/http:\/\/(w|wt).soundcloud.com/, 'https://$1.soundcloud.com');
-
-    this.iframe.contentWindow?.postMessage(data, origin);
-  };
-
-  protected _invokeWait = <T>(method: string, value?: any): Promise<T> => {
-    return new Promise((res, rej) => {
-      const iframe = this.iframe;
-      let timeout: ReturnType<typeof setTimeout>;
-
-      function onMessage(evt: MessageEvent) {
-        if (iframe.contentWindow !== evt.source) return;
-
-        let data: { method: string; value: T };
-        try {
-          data = JSON.parse(evt.data);
-        } catch {
-          return;
-        }
-
-        if (method !== data.method) return;
-
-        clearTimeout(timeout);
-        window.removeEventListener('message', onMessage);
-        res(data.value);
-      }
-      window.addEventListener('message', onMessage);
-      timeout = setTimeout(() => {
-        window.removeEventListener('message', onMessage);
-        rej(new Error('iframe is not responding'));
-      }, this.invokeTimeout);
-
-      this._invoke(method, value);
-    });
-  };
-
-  protected _addEventListener = (method: Method) => {
-    this._invoke('addEventListener', method);
-  };
-
-  protected _removeEventListener = (method: Method) => {
-    this._invoke('removeEventListener', method);
-  };
 }
-
-type Method =
-  | 'loadProgress'
-  | 'playProgress'
-  | 'play'
-  | 'pause'
-  | 'finish'
-  | 'seek'
-  | 'ready'
-  | 'sharePanelOpened'
-  | 'downloadClicked'
-  | 'buyClicked'
-  | 'error';

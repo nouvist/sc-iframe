@@ -1,4 +1,4 @@
-import SCWidget from './SCWidget';
+import SCWidget from '../src';
 
 const app = document.getElementById('app')!;
 

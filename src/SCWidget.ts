@@ -4,7 +4,7 @@ import { LoadOptions, LOAD_OPTIONS_MAPPING } from './types/LoadOptions';
 import { Metadata } from './types/Metadata';
 import { EventMethod, EventObject } from './types/Method';
 
-export interface ConstructOptions {
+export interface SCWidgetOptions {
   iframe: HTMLIFrameElement;
   invokeTimeout: number;
   useDefaultStyle: boolean;
@@ -18,7 +18,7 @@ export default class SCWidget extends Invoker {
     iframe,
     invokeTimeout,
     useDefaultStyle,
-  }: Partial<ConstructOptions> = {}) {
+  }: Partial<SCWidgetOptions> = {}) {
     super();
 
     if (typeof iframe !== 'undefined') {

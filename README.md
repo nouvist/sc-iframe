@@ -4,7 +4,7 @@
 
 Unofficial Soundcloud Widget API written in Typescript.
 
-> **Disclaimer**: Soundcloud is trademark or registered trademark of their respective holders. Use of them does not imply any affiliation with or endorsement by them.
+> Soundcloud is trademark or registered trademark of their respective holders. This project is not affiliated with or endorsed by them.
 
 ## Installation
 
@@ -103,6 +103,7 @@ console.log(widget.currentTime);
 
 // set current time
 widget.currentTime = 10 * 1e3;
+```
 
 #### `Widget.prototype.metadata`
 
@@ -269,4 +270,3 @@ An object about current sound metadata.
 | urn       | `string` |
 | entryTime | `number` |
 | visualURL | `string` |
-```

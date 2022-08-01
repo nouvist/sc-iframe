@@ -1,16 +1,15 @@
 import camelCasify from './camelCasify';
-import Invoker from './Invoker';
-import { LoadOptions, LOAD_OPTIONS_MAPPING } from './types/LoadOptions';
+import { Invoker } from './Invoker';
 import { Metadata } from './types/Metadata';
 import { EventMethod, EventObject } from './types/Method';
 
-export interface SCWidgetOptions {
+export interface WidgetOptions {
   iframe: HTMLIFrameElement;
   invokeTimeout: number;
   useDefaultStyle: boolean;
 }
 
-export default class SCWidget extends Invoker {
+export class Widget extends Invoker {
   invokeTimeout: number;
   iframe: HTMLIFrameElement;
 
@@ -18,7 +17,7 @@ export default class SCWidget extends Invoker {
     iframe,
     invokeTimeout,
     useDefaultStyle,
-  }: Partial<SCWidgetOptions> = {}) {
+  }: Partial<WidgetOptions> = {}) {
     super();
 
     if (typeof iframe !== 'undefined') {
@@ -136,3 +135,29 @@ export default class SCWidget extends Invoker {
     this._invoke('pause');
   };
 }
+
+export interface LoadOptions {
+  autoPlay: boolean;
+  color: string;
+  buying: boolean;
+  sharing: boolean;
+  download: boolean;
+  showArtwork: boolean;
+  showPlayCount: boolean;
+  showUser: boolean;
+  startTrack: number;
+  singleActive: boolean;
+}
+
+export const LOAD_OPTIONS_MAPPING = {
+  autoPlay: 'auto_play',
+  color: 'color',
+  buying: 'buying',
+  sharing: 'sharing',
+  download: 'download',
+  showArtwork: 'show_artwork',
+  showPlayCount: 'show_playcount',
+  showUser: 'show_user',
+  startTrack: 'start_track',
+  singleActive: 'single_active',
+};

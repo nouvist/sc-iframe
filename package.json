@@ -1,5 +1,13 @@
 {
-  "name": "sc-widget",
+  "name": "sc-iframe",
+  "description": "Unofficial Soundcloud Widget API written in Typescript",
+  "keywords": [
+    "soundcloud",
+    "soundcloud api",
+    "soundcloud widget",
+    "soundcloud embed",
+    "iframe"
+  ],
   "private": true,
   "version": "0.0.0",
   "main": "dist/index.js",

@@ -1,4 +1,4 @@
-import SCWidget from '../src';
+import { Widget } from '../src';
 
 const app = document.getElementById('app')!;
 
@@ -14,7 +14,7 @@ const time = document.createElement('i');
 time.textContent = '0';
 app.appendChild(time);
 
-const sc = new SCWidget({ useDefaultStyle: true });
+const sc = new Widget({ useDefaultStyle: true });
 app.appendChild(sc.iframe);
 sc.loadFromURI(
   'https://soundcloud.com/rufi-o/would-you-love-me-with-my-demons-ft-mishaal',

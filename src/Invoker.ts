@@ -1,7 +1,7 @@
 import { EventMethod } from './types/Method';
 import { GetterMethod, Method } from './types/Method';
 
-export default abstract class Invoker {
+export abstract class Invoker {
   abstract iframe: HTMLIFrameElement;
   abstract invokeTimeout: number;
 

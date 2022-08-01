@@ -5,7 +5,7 @@ export interface Metadata {
   caption: null;
   commentable: boolean;
   commentCount: number;
-  createdAt: Date;
+  createdAt: string;
   description: string;
   downloadable: boolean;
   downloadCount: number;
@@ -16,7 +16,7 @@ export interface Metadata {
   hasDownloadsLeft: boolean;
   kind: string;
   labelName: null;
-  lastModified: Date;
+  lastModified: string;
   license: string;
   likesCount: number;
   permalink: string;
@@ -40,7 +40,7 @@ export interface Metadata {
   userID: number;
   visuals: null;
   waveformURL: string;
-  displayDate: Date;
+  displayDate: string;
   media: Media;
   stationUrn: string;
   stationPermalink: string;
@@ -83,7 +83,7 @@ export interface User {
   city: string;
   commentsCount: number;
   countryCode: null;
-  createdAt: Date;
+  createdAt: string;
   creatorSubscriptions: CreatorSubscription[];
   creatorSubscription: CreatorSubscription;
   description: string;
@@ -94,7 +94,7 @@ export interface User {
   groupsCount: number;
   id: number;
   kind: string;
-  lastModified: Date;
+  lastModified: string;
   lastName: string;
   likesCount: number;
   playlistLikesCount: number;

@@ -34,6 +34,53 @@ export default class SCWidget {
     this.iframe.src = `https://w.soundcloud.com/player/?${query}`;
   };
 
+  togglePlay = async () => {
+    if (await this.isPaused) {
+      this.play();
+    } else {
+      this.pause();
+    }
+  };
+
+  play = () => {
+    this._invoke('play');
+  };
+
+  pause = () => {
+    this._invoke('pause');
+  };
+
+  setVolume = (value: number) => {
+    this._invoke(
+      'setVolume',
+      Math.round(Math.min(1, Math.max(0, value)) * 100),
+    );
+  };
+
+  getVolume = async () => {
+    return (await this._invokeWait<number>('getVolume')) / 100;
+  };
+
+  setCurrentTime = (value: number) => {
+    this._invoke('seekTo', value);
+  };
+
+  getCurrentTime = () => {
+    return this._invokeWait<number>('getPosition');
+  };
+
+  getSounds = () => {
+    return this._invokeWait<number>('getSounds');
+  };
+
+  get duration() {
+    return this._invokeWait<number>('getDuration');
+  }
+
+  get isPaused() {
+    return this._invokeWait<boolean>('isPaused');
+  }
+
   protected _invoke = (method: string, value?: any) => {
     const data = JSON.stringify({ method, value: value || null });
     const origin = (
@@ -75,38 +122,24 @@ export default class SCWidget {
     });
   };
 
-  togglePlay = async () => {
-    if (await this.isPaused) {
-      this.play();
-    } else {
-      this.pause();
-    }
+  protected _addEventListener = (method: Method) => {
+    this._invoke('addEventListener', method);
   };
 
-  play = () => {
-    this._invoke('play');
+  protected _removeEventListener = (method: Method) => {
+    this._invoke('removeEventListener', method);
   };
-
-  pause = () => {
-    this._invoke('pause');
-  };
-
-  set volume(value: number) {
-    this._invoke(
-      'setVolume',
-      Math.round(Math.min(1, Math.max(0, value)) * 100),
-    );
-  }
-
-  set currentTime(value: number) {
-    this._invoke('seekTo', value);
-  }
-
-  get duration() {
-    return this._invokeWait<number>('getDuration');
-  }
-
-  get isPaused() {
-    return this._invokeWait<boolean>('isPaused');
-  }
 }
+
+type Method =
+  | 'loadProgress'
+  | 'playProgress'
+  | 'play'
+  | 'pause'
+  | 'finish'
+  | 'seek'
+  | 'ready'
+  | 'sharePanelOpened'
+  | 'downloadClicked'
+  | 'buyClicked'
+  | 'error';

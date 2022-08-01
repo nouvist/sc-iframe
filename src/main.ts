@@ -12,9 +12,12 @@ app.appendChild(pause);
 
 const sc = new SCWidget();
 app.appendChild(sc.iframe);
-sc.loadFromURI('https://soundcloud.com/dabootlegboy/sarcastic-sounds-haunt-me', {
-  showArtwork: false,
-});
+sc.loadFromURI(
+  'https://soundcloud.com/dabootlegboy/sarcastic-sounds-haunt-me',
+  {
+    showArtwork: false,
+  },
+);
 play.onclick = sc.play;
 pause.onclick = sc.pause;
 

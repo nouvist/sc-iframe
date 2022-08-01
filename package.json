@@ -1,18 +1,18 @@
 {
-  "name": "sc-iframe",
+  "name": "soundcloud-embed",
   "version": "0.1.0",
   "license": "MIT",
-  "homepage": "https://github.com/nouvist/sc-iframe/#readme",
+  "homepage": "https://github.com/nouvist/soundcloud-embed/#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nouvist/sc-iframe.git"
+    "url": "https://github.com/nouvist/soundcloud-embed.git"
   },
   "description": "Unofficial Soundcloud Widget API written in Typescript",
   "keywords": [
     "soundcloud",
-    "soundcloud api",
-    "soundcloud widget",
-    "soundcloud embed",
+    "soundcloud-api",
+    "soundcloud-widget",
+    "soundcloud-embed",
     "iframe"
   ],
   "main": "dist/index.js",

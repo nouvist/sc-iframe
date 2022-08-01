@@ -5,7 +5,7 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
-      name: 'SCIframe',
+      name: 'SoundcloudEmbed',
       fileName: 'index',
       formats: ['cjs', 'es', 'umd', 'iife'],
     },

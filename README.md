@@ -1,13 +1,11 @@
 <h1 align="center">
-  sc-iframe
+  soundcloud-embed
 </h1>
 
-[![npm](https://img.shields.io/npm/v/sc-iframe)](https://www.npmjs.com/package/sc-iframe)
-![GitHub](https://img.shields.io/github/license/nouvist/sc-iframe)
+[![npm](https://img.shields.io/npm/v/soundcloud-embed)](https://www.npmjs.com/package/soundcloud-embed)
+![GitHub](https://img.shields.io/github/license/nouvist/soundcloud-embed)
 
 Unofficial Soundcloud Widget API written in Typescript.
-
-> Soundcloud is trademark or registered trademark of their respective holders. This project is not affiliated with or endorsed by them.
 
 ## Installation
 
@@ -15,11 +13,11 @@ You could install this module via NPM registry.
 
 ```bash
 # npm
-npm install sc-iframe
+npm install soundcloud-embed
 # yarn
-yarn add sc-iframe
+yarn add soundcloud-embed
 # pnpm
-pnpm add sc-iframe
+pnpm add soundcloud-embed
 ```
 
 ## Usage

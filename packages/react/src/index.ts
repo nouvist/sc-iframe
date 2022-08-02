@@ -1,3 +1,2 @@
-import { Widget } from 'soundcloud-embed';
+export { default as SCWidget } from './SCWidget';
 
-console.log(Widget);

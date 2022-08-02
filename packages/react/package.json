@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "pnpm build:clean && pnpm build:tsc && pnpm build:vite",
     "build:clean": "rimraf dist types",
-    "build:tsc": "tsc",
+    "build:tsc": "tsc -p tsconfig.types.json",
     "build:vite": "vite build",
     "prepublish": "pnpm build",
     "preview": "vite preview"

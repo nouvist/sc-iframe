@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "emitDeclarationOnly": true,
+    "declaration": true,
+    "outDir": "types"
+  },
+  "include": ["src"],
+  "exclude": ["example"],
+  "references": [{ "path": "./tsconfig.json" }]
+}

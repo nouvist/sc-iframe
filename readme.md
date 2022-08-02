@@ -2,15 +2,20 @@
   soundcloud-embed
 </h1>
 
-[![npm](https://img.shields.io/npm/v/soundcloud-embed)](https://www.npmjs.com/package/soundcloud-embed)
-![GitHub](https://img.shields.io/github/license/nouvist/soundcloud-embed)
-
 Unofficial Soundcloud Widget API written in Typescript.
 
 ## Core Module
 
-A wrapper for Soundcloud Widget API. Go to the [documentation](./packages/core#readme)
+[![npm](https://img.shields.io/npm/v/soundcloud-embed)](https://www.npmjs.com/package/soundcloud-embed)
+![GitHub](https://img.shields.io/github/license/nouvist/soundcloud-embed)
 
-## React
+A wrapper for Soundcloud Widget API. See the [documentation](./packages/core#readme).
 
-A React component wrapper for Soundcloud Widget API. Go to the [documentation](./packages/react#readme)
+## React Component
+
+<!-- [![npm](https://img.shields.io/npm/v/soundcloud-embed-react)](https://www.npmjs.com/package/soundcloud-embed-react) -->
+
+![WIP](https://img.shields.io/badge/-work%20in%20progress-red)
+![GitHub](https://img.shields.io/github/license/nouvist/soundcloud-embed)
+
+A React component wrapper for Soundcloud Widget API. See the [documentation](./packages/react#readme).
